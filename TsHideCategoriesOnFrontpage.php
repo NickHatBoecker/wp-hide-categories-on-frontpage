@@ -5,9 +5,17 @@ Version: 1.0
 Description: Choose categories you want to hide on front page.
 Author: Nick Böcker
 Author URI: http://www.nick-hat-boecker.de
+Text Domain: ts-hide-categories-on-frontpage
 */
 class TsHideCategoriesOnFrontpage
 {
+    public static $textDomain = 'ts-hide-categories-on-frontpage';
+
+    public static function loadTextdomain()
+    {
+        load_plugin_textdomain(self::$textDomain, false, dirname(plugin_basename(__FILE__)).'/languages');
+    }
+
     public static function hideCategories($query)
     {
         // Only hide categories on front page in main query
@@ -44,8 +52,8 @@ class TsHideCategoriesOnFrontpage
         $customizer->add_section(
             'ts_hide_categories_on_frontpage_section',
             array(
-                'title' => 'Hide Categories on Frontpage',
-                'description' => 'Choose which categories to hide on front page.',
+                'title' => __('Hide Categories on Frontpage', self::$textDomain),
+                'description' => __('Choose which categories to hide on front page.', self::$textDomain),
                 'priority' => 35,
             )
         );
@@ -65,7 +73,7 @@ class TsHideCategoriesOnFrontpage
                 $customizer,
                 'ts_hide_categories_on_frontpage',
                 array(
-                    'label' => 'Categories',
+                    'label' => __('Categories'),
                     'section' => 'ts_hide_categories_on_frontpage_section',
                     'settings' => 'ts_hide_categories_on_frontpage',
                     'type' => 'ts-multiple-select',
@@ -78,3 +86,4 @@ class TsHideCategoriesOnFrontpage
 
 add_action('customize_register', array('TsHideCategoriesOnFrontpage', 'registerSettings'));
 add_action('pre_get_posts', array('TsHideCategoriesOnFrontpage','hideCategories'));
+add_action('plugins_loaded', array('TsHideCategoriesOnFrontpage', 'loadTextdomain'));
