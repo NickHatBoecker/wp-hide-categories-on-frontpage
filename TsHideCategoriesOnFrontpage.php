@@ -11,7 +11,7 @@ class TsHideCategoriesOnFrontpage
     public static function hideCategories($query)
     {
         // Only hide categories on front page in main query
-        if (!$query->is_home() && !$query->is_main_query()) {
+        if (!$query->is_home() || !$query->is_main_query()) {
             return;
         }
 
